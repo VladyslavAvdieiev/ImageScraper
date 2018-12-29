@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace ImageScrapers
 {
     public interface IScraper {
+        IList<char> Alphabet { get; }
         void StartDownloading();
     }
 }
