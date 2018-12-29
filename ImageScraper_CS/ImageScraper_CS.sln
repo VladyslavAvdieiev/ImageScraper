@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI.ConsoleApp", "UI.ConsoleApp\UI.ConsoleApp.csproj", "{3A8C2946-9959-4E39-8B59-0C8D33332AE9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageScrapers", "ImageScrapers\ImageScrapers.csproj", "{393FEA7C-892D-4A97-8C87-41EC19E32451}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{3A8C2946-9959-4E39-8B59-0C8D33332AE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A8C2946-9959-4E39-8B59-0C8D33332AE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A8C2946-9959-4E39-8B59-0C8D33332AE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{393FEA7C-892D-4A97-8C87-41EC19E32451}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{393FEA7C-892D-4A97-8C87-41EC19E32451}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{393FEA7C-892D-4A97-8C87-41EC19E32451}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{393FEA7C-892D-4A97-8C87-41EC19E32451}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
