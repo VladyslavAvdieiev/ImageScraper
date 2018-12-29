@@ -14,7 +14,18 @@ namespace ImageScrapers
         public IList<char> Alphabet { get => _alphabet.AsReadOnly(); }
 
         public void StartDownloading() {
+            string image;
+            image = GenerateImageName();
+
             throw new NotImplementedException();
+        }
+
+        private string GenerateImageName() {
+            Random random = new Random();
+            string image = string.Empty;
+            for (int i = 0; i < 6; i++)
+                image += Alphabet[random.Next(Alphabet.Count)];
+            return image;
         }
     }
 }
