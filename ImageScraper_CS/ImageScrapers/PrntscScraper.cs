@@ -16,8 +16,12 @@ namespace ImageScrapers
                                                         'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
 
         public IList<char> Alphabet { get => _alphabet.AsReadOnly(); }
+        public event EventHandler<ScraperEventArgs> OnStarted;
+        public event EventHandler<ScraperEventArgs> OnImageDownloaded;
+        public event EventHandler<ScraperEventArgs> OnErrorOccurred;
 
         public void StartDownloading() {
+            OnStarted?.Invoke(this, new ScraperEventArgs($"Task #{Task.CurrentId} has started...", string.Empty));
             string image;
             string html;
             string link;
@@ -30,11 +34,15 @@ namespace ImageScrapers
                         html = webClient.DownloadString($"{linkPattern}{image}");
                         link = ParseHtml(html);
 
-                        if (link != imageIsNotExist)
+                        if (link != imageIsNotExist) {
                             webClient.DownloadFile(link, $"{image}.png");
+                            OnImageDownloaded?.Invoke(this, new ScraperEventArgs($"#{Task.CurrentId} [ + ] {image}", image));
+                        }
+                        else
+                            OnErrorOccurred?.Invoke(this, new ScraperEventArgs($"#{Task.CurrentId} [ - ] {image}", image));
                     }
                     catch (Exception e) {
-
+                        OnErrorOccurred?.Invoke(this, new ScraperEventArgs($"#{Task.CurrentId} [ERR] {e.Message}", string.Empty));
                     }
                 }
             }
