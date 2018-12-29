@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -15,10 +16,21 @@ namespace ImageScrapers
                                                         'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
                                                         'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
 
+        public string Path { get; set; }
         public IList<char> Alphabet { get => _alphabet.AsReadOnly(); }
         public event EventHandler<ScraperEventArgs> OnStarted;
         public event EventHandler<ScraperEventArgs> OnImageDownloaded;
         public event EventHandler<ScraperEventArgs> OnErrorOccurred;
+
+        public PrntscScraper() {
+            Path = $"{AppDomain.CurrentDomain.BaseDirectory}DownloadedImages";
+            CheckDirectory();
+        }
+
+        public PrntscScraper(string path) {
+            Path = path;
+            CheckDirectory();
+        }
 
         public void StartDownloading() {
             OnStarted?.Invoke(this, new ScraperEventArgs($"Task #{Task.CurrentId} has started...", string.Empty));
@@ -35,7 +47,7 @@ namespace ImageScrapers
                         link = ParseHtml(html);
 
                         if (link != imageIsNotExist) {
-                            webClient.DownloadFile(link, $"{image}.png");
+                            webClient.DownloadFile(link, $"{Path}\\{image}.png");
                             OnImageDownloaded?.Invoke(this, new ScraperEventArgs($"#{Task.CurrentId} [ + ] {image}", image));
                         }
                         else
@@ -60,6 +72,12 @@ namespace ImageScrapers
             string meta = Regex.Match(html, "og:image.+?/>").Value;
             string content = Regex.Match(meta, "content=.+?/>").Value;
             return Regex.Match(content, "\".+?\"").Value.Trim(new char[] { '"' });
+        }
+
+        private void CheckDirectory() {
+            DirectoryInfo directory = new DirectoryInfo(Path);
+            if (!directory.Exists)
+                directory.Create();
         }
     }
 }
