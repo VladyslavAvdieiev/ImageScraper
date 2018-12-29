@@ -44,6 +44,7 @@
     <Compile Include="IScraper.cs" />
     <Compile Include="PrntscScraper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScraperEventArgs.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
