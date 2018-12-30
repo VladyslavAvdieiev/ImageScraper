@@ -16,22 +16,47 @@ namespace ImageScrapers
                                                         'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
                                                         'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
 
+        /// <summary>
+        /// Represents the path to the folder in which the images will be saved.
+        /// </summary>
         public string Path { get; set; }
+        /// <summary>
+        /// Represents the alphabet used in generating image names.
+        /// </summary>
         public IList<char> Alphabet { get => _alphabet.AsReadOnly(); }
+        /// <summary>
+        /// Occurs when a StartDownloading method starts.
+        /// </summary>
         public event EventHandler<ScraperEventArgs> OnStarted;
+        /// <summary>
+        /// Occurs when an image saves successfully.
+        /// </summary>
         public event EventHandler<ScraperEventArgs> OnImageDownloaded;
+        /// <summary>
+        /// Occurs when an image cannot be saved.
+        /// </summary>
         public event EventHandler<ScraperEventArgs> OnErrorOccurred;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PrntscScraper"/> class.
+        /// </summary>
         public PrntscScraper() {
             Path = $"{AppDomain.CurrentDomain.BaseDirectory}DownloadedImages";
             CheckDirectory();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PrntscScraper"/> class.
+        /// </summary>
+        /// <param name="path">Represents the path to the folder in which the images will be saved.</param>
         public PrntscScraper(string path) {
             Path = path;
             CheckDirectory();
         }
 
+        /// <summary>
+        /// Downloads random images from the prnt.sc site.
+        /// </summary>
         public void StartDownloading() {
             OnStarted?.Invoke(this, new ScraperEventArgs($"Task #{Task.CurrentId} has started.", string.Empty));
             string image;
@@ -60,6 +85,9 @@ namespace ImageScrapers
             }
         }
 
+        /// <summary>
+        /// Generates random names for images.
+        /// </summary>
         private string GenerateImageName() {
             Random random = new Random();
             string image = string.Empty;
@@ -68,12 +96,18 @@ namespace ImageScrapers
             return image;
         }
 
+        /// <summary>
+        /// Parses html string to find link to image.
+        /// </summary>
         private string ParseHtml(string html) {
             string meta = Regex.Match(html, "og:image.+?/>").Value;
             string content = Regex.Match(meta, "content=.+?/>").Value;
             return Regex.Match(content, "\".+?\"").Value.Trim(new char[] { '"' });
         }
 
+        /// <summary>
+        /// Checks the directory for a folder for downloaded images.
+        /// </summary>
         private void CheckDirectory() {
             DirectoryInfo directory = new DirectoryInfo(Path);
             if (!directory.Exists)
